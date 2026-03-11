@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: vertx-user-proxy-service
+
+server:
+  port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+proxy:
+  server:
+    host: 0.0.0.0
+    port: 8081
+    prefix: /api/v1/user-proxy
+
+user-service:
+  base-url: http://localhost:8080
+  request-timeout-ms: 3000
+  connect-timeout-ms: 2000
+
+  circuit-breaker:
+    name: user-service-cb
+    max-failures: 5
+    timeout-ms: 3000
+    reset-timeout-ms: 10000
+    max-retries: 3
+    backoff-initial-delay-ms: 200
+    backoff-max-delay-ms: 2000
